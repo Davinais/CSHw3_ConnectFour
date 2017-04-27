@@ -1,5 +1,5 @@
-CXX = clang
-CXXFLAGS = -g -std=c11 -Wall -Wextra
+C = clang
+CFLAGS = -g -std=c11 -Wall -Wextra
 
 BIN_DIR = bin
 BUILD_DIR = obj
@@ -12,13 +12,13 @@ DEPS := $(OBJECTS:%.o=%.d)
 TARGET := hw3
 
 $(BIN_DIR)/$(TARGET): $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS)
+	$(C) -o $@ $(OBJECTS)
 
 -include $(DEPS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@$(CXX) -MM $< > $(BUILD_DIR)/$*.d
-	$(CXX) -I$(INCLUDES) $(CXXFLAGS) -c $< -o $@
+	@$(C) -MM $< > $(BUILD_DIR)/$*.d
+	$(C) -I$(INCLUDES) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS) $(DEPS) $(BIN_DIR)/$(TARGET)
