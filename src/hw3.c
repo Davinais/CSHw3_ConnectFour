@@ -1,17 +1,26 @@
 #include <stdio.h>
-#define ROW 6
-#define COL 7
+#include "board.h"
 
 int main(int argc, char** argv)
 {
-    char board[COL][ROW];
+    Game game;
     int i = 0, j = 0;
-    for(i = 0; i < COL; i++)
+    if(argc == 2)
     {
-        for(j = 0; j < ROW; j++)
-        {
-            board[i][j] = NULL;
-        }
+        readBoard(&game, argv[1]);
     }
+    else
+    {
+        for(i = 0; i < ROW; i++)
+        {
+            for(j = 0; j < COL; j++)
+            {
+                game.board[i][j] = N;
+            }
+        }
+        game.chessNum = 0;
+        game.nowPlay = R;
+    }
+    printBoard(&game);
+    return 0;
 }
-
