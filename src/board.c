@@ -52,6 +52,20 @@ void readBoard(Game* game, char* fileName)
     fclose(fb);
 }
 
+void initBoard(Game* game)
+{
+    int i = 0, j = 0;
+    for(i = 0; i < ROW; i++)
+    {
+        for(j = 0; j < COL; j++)
+        {
+            game->board[i][j] = N;
+        }
+    }
+    game->chessNum = 0;
+    game->nowPlay = R;
+}
+
 void printBoard(Game* game)
 {
     int i = 0, j = 0;

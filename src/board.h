@@ -17,5 +17,6 @@ typedef struct Game
 }Game;
 
 void readBoard(Game*, char*);
+void initBoard(Game* game);
 void printBoard(Game*);
 #endif

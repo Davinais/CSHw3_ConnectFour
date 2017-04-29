@@ -11,15 +11,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        for(i = 0; i < ROW; i++)
-        {
-            for(j = 0; j < COL; j++)
-            {
-                game.board[i][j] = N;
-            }
-        }
-        game.chessNum = 0;
-        game.nowPlay = R;
+        initBoard(&game);
     }
     printBoard(&game);
     return 0;
