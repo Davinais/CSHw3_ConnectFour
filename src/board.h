@@ -4,6 +4,8 @@
 #define ROW 6
 #define COL 7
 
+#include <stdbool.h>
+
 typedef enum chess
 {
     N, R, Y
@@ -13,10 +15,12 @@ typedef struct Game
 {
     chess board[ROW][COL];
     chess nowPlay;
+    chess winner;
     int chessNum;
 }Game;
 
 void readBoard(Game*, char*);
 void initBoard(Game* game);
 void printBoard(Game*);
+bool checkWin(Game*);
 #endif
