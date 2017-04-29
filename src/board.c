@@ -47,9 +47,70 @@ void readBoard(Game* game, char* fileName)
         {
             fscanf(fb, "%c ", &readCh);
             game->board[i][j] = chartoChess(readCh);
+            if(readCh == 'R')
+                game->rNum++;
+            else if(readCh == 'Y')
+                game->yNum++;
         }
     }
     fclose(fb);
+    game->chessNum = game->rNum + game->yNum;
+    if(!checkValid(game))
+    {
+        printBoard(game);
+        puts("不合理的殘局，離開程式");
+        exit(0);
+    }
+}
+
+bool checkValid(Game* game)
+{
+    if(game->rNum - game->yNum > 1 || game->yNum > game->rNum)
+    {
+        return false;
+    }
+    game->nowPlay = (game->rNum == game->yNum)?R:Y;
+    int i = 0, j = 0;
+    for(j = 0; j < COL; j++)
+    {
+        bool beenPlaced = false;
+        for(i = 0; i < ROW; i++)
+        {
+            if(game->board[i][j] == N)
+            {
+                if(beenPlaced)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if(!beenPlaced)
+                    beenPlaced = true;
+            }
+        }
+    }
+    chess lastPlay = (game->nowPlay == R)?Y:R;
+    chess temp;
+    int lastOnTop = 0;
+    for(j = 0; j < COL; j++)
+    {
+        for(i = 0; i < ROW; i++)
+        {
+            temp = game->board[i][j];
+            if(temp != N)
+            {
+                if(temp == lastPlay)
+                    lastOnTop++;
+                break;
+            }
+        }
+    }
+    if(lastOnTop == 0)
+    {
+        return false;
+    }
+    return !checkWin(game); //因為最後一個就是檢查有沒有勝利，直接寫在return上了
 }
 
 void initBoard(Game* game)
@@ -62,6 +123,8 @@ void initBoard(Game* game)
             game->board[i][j] = N;
         }
     }
+    game->rNum = 0;
+    game->yNum = 0;
     game->chessNum = 0;
     game->nowPlay = R;
 }

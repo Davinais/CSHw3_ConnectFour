@@ -4,14 +4,10 @@
 int main(int argc, char** argv)
 {
     Game game;
-    int i = 0, j = 0;
+    initBoard(&game);
     if(argc == 2)
     {
         readBoard(&game, argv[1]);
-    }
-    else
-    {
-        initBoard(&game);
     }
     printBoard(&game);
     return 0;

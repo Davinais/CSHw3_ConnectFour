@@ -16,10 +16,11 @@ typedef struct Game
     chess board[ROW][COL];
     chess nowPlay;
     chess winner;
-    int chessNum;
+    int chessNum, rNum, yNum;
 }Game;
 
 void readBoard(Game*, char*);
+bool checkValid(Game*);
 void initBoard(Game* game);
 void printBoard(Game*);
 bool checkWin(Game*);
