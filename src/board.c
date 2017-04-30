@@ -65,12 +65,14 @@ void readBoard(Game* game, char* fileName)
 
 bool checkValid(Game* game)
 {
+    //剪查棋子數
     if(game->rNum - game->yNum > 1 || game->yNum > game->rNum)
     {
         return false;
     }
     game->nowPlay = (game->rNum == game->yNum)?R:Y;
     int i = 0, j = 0;
+    //檢查有沒有中間被空白斷開
     for(j = 0; j < COL; j++)
     {
         bool beenPlaced = false;
@@ -90,9 +92,27 @@ bool checkValid(Game* game)
             }
         }
     }
+    int btmhasRed = 0, nothing = 0;
+    //檢查第一排是否有紅色，排除棋盤為空的情形
+    for(int j = 0; j < COL; j++)
+    {
+        if(game->board[ROW-1][j] == R)
+        {
+            btmhasRed++;
+        }
+        else if(game->board[ROW-1][j] == N)
+        {
+            nothing++;
+        }
+    }
+    if(nothing != COL && btmhasRed == 0)
+    {
+        return false;
+    }
     chess lastPlay = (game->nowPlay == R)?Y:R;
     chess temp;
     int lastOnTop = 0;
+    //檢查最頂端有沒有上一個人下的棋
     for(j = 0; j < COL; j++)
     {
         for(i = 0; i < ROW; i++)
@@ -106,7 +126,7 @@ bool checkValid(Game* game)
             }
         }
     }
-    if(lastOnTop == 0)
+    if(nothing != COL && lastOnTop == 0)
     {
         return false;
     }

@@ -12,11 +12,13 @@ DEPS := $(OBJECTS:%.o=%.d)
 TARGET := hw3
 
 $(BIN_DIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
 	$(C) -o $@ $(OBJECTS)
 
 -include $(DEPS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
 	@$(C) -MM $< > $(BUILD_DIR)/$*.d
 	$(C) -I$(INCLUDES) $(CFLAGS) -c $< -o $@
 
