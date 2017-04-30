@@ -23,5 +23,7 @@ void readBoard(Game*, char*);
 bool checkValid(Game*);
 void initBoard(Game* game);
 void printBoard(Game*);
+bool isFullCol(Game*, int);
+void placeChess(Game*, int);
 bool checkWin(Game*);
 #endif

@@ -141,8 +141,28 @@ void printBoard(Game* game)
         }
         puts("");
     }
+    puts("１２３４５６７");
 }
 
+bool isFullCol(Game* game, int col)
+{
+    return (game->board[0][col] != N);
+}
+
+void placeChess(Game* game, int col)
+{
+    int i = 0;
+    col -= 1;
+    for(i = ROW-1; i >= 0; i--)
+    {
+        if(game->board[i][col] == N)
+        {
+            game->board[i][col] = game->nowPlay;
+            break;
+        }
+    }
+    game->nowPlay = (game->nowPlay == R)?Y:R;
+}
 void checkSpace(chess ch, int* rcn, int* ycn)
 {
     switch(ch)
@@ -166,6 +186,7 @@ bool checkWin(Game* game)
 {
     int i = 0, j = 0;
     int rcn = 0, ycn = 0;
+    //檢查橫排
     for(i = 0; i < ROW; i++)
     {
         for(j = 0; j < COL; j++)
@@ -177,7 +198,9 @@ bool checkWin(Game* game)
                 return true;
             }
         }
+        rcn = 0, ycn = 0;
     }
+    //檢查直列
     rcn = 0, ycn = 0;
     for(j = 0; j < COL; j++)
     {
@@ -190,9 +213,11 @@ bool checkWin(Game* game)
                 return true;
             }
         }
+        rcn = 0, ycn = 0;
     }
     rcn = 0, ycn = 0;
     int k = 0, l = 0;
+    //檢查左上至右下的斜線
     for(i = 0, j = 0; i < ROW; i++)
     {
         k = i;
@@ -207,6 +232,7 @@ bool checkWin(Game* game)
             k++;
             j++;
         }
+        rcn = 0, ycn = 0;
         j = 0;
     }
     rcn = 0, ycn = 0;
@@ -224,8 +250,10 @@ bool checkWin(Game* game)
             i++;
             l++;
         }
+        rcn = 0, ycn = 0;
         i = 0;
     }
+    //檢查右上至左下的斜線
     rcn = 0, ycn = 0;
     for(i = 0, j = COL-1; j >= 0; j--)
     {
@@ -241,6 +269,7 @@ bool checkWin(Game* game)
             i++;
             l--;
         }
+        rcn = 0, ycn = 0;
         i = 0;
     }
     rcn = 0, ycn = 0;
@@ -258,7 +287,22 @@ bool checkWin(Game* game)
             k++;
             j--;
         }
+        rcn = 0, ycn = 0;
         j = COL-1;
+    }
+    //檢查是否全滿
+    int fullColNum = 0;
+    for(j = 0; j < COL; j++)
+    {
+        if(isFullCol(game, j))
+        {
+            fullColNum++;
+        }
+    }
+    if(fullColNum >= 7)
+    {
+        game->winner = Y;
+        return true;
     }
     return false;
 }
